@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/popup.css'%}" />
+    <script src="{% static 'js/homepage.js' %}"></script>
+    <title>Pop-up notification</title>
+  </head>
+  <body>
+    <div id="popupOverlay" class="popup-overlay">
+      <div class="recognition-popup">
+        <button class="popup-close">×</button>
+
+        <div class="recognition-title">Recognition Result</div>
+
+        <div class="person-avatar">👨‍💼</div>
+
+        <div class="recognition-details">
+          <div class="detail-row">
+            <span class="detail-label">Name:</span>
+            <span class="detail-value">Nguyen Van A</span>
+          </div>
+
+          <div class="detail-row">
+            <span class="detail-label">% Recognized:</span>
+            <div class="confidence-container">
+              <span class="detail-value">92%</span>
+              <div class="confidence-bar">
+                <div class="confidence-fill"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="popup-actions">
+          <button class="popup-btn btn-primary">Open Door</button>
+          <button class="popup-btn btn-secondary">Dismiss</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

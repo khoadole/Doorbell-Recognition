@@ -1,0 +1,73 @@
+.header {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 183, 255, 0.1);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.left-header {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.logo-img {
+  width: 200px;
+  height: 74px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.noti-img {
+  cursor: pointer;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-item {
+  color: #64748b;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.nav-item:hover {
+  color: #00b7ff;
+  background: rgba(0, 183, 255, 0.1);
+}
+
+.login-btn {
+  background: linear-gradient(135deg, #00b7ff 0%, #00a0e6 100%);
+  color: white !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 12px;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(0, 183, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #33c9ff 0%, #22b8f2 100%);
+  box-shadow: 0 6px 25px rgba(0, 183, 255, 0.4);
+}
+
+.login-btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 8px rgba(0, 183, 255, 0.2);
+}

@@ -1,0 +1,119 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/header.css'%}" />
+    <link rel="stylesheet" href="{% static 'css/history.css'%}" />
+    <link
+      rel="icon"
+      href="../../static/images/base/Logo_noText.svg"
+      type="image/svg"
+    />
+    <title>History</title>
+  </head>
+  <body>
+    <header class="header">
+      <div class="left-header">
+        <a href="{% url 'home' %}">
+          <img
+            class="logo-img"
+            src="{% static 'images/base/Logo.svg' %}"
+            alt="Logo"
+          />
+        </a>
+        <image
+          class="noti-img"
+          src="../static/images/base/noti-bell.svg"
+          onclick="notiPopup()"
+        ></image>
+      </div>
+
+      <nav class="nav-menu">
+        <a href="{% url 'history' %}" class="nav-item">History</a>
+        <a href="{% url 'profile' %}" class="nav-item">Username</a>
+        <a href="{% url 'signin' %}" class="nav-item login-btn">Sign in</a>
+      </nav>
+    </header>
+
+    <main class="main-content">
+      <div class="page-header">
+        <h1 class="page-title">Log History</h1>
+        <div class="search-container">
+          <label class="search-label">Search by Date</label>
+          <input type="date" class="date-search" id="dateSearch" />
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Date & Time</th>
+              <th>Name</th>
+              <th>Recognition Percentage</th>
+              <th>Image</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="id-cell">#001</td>
+              <td class="datetime-cell">2024-06-19 14:30:25</td>
+              <td class="name-cell">Unknown Person</td>
+              <td class="percentage-cell percentage-high">95%</td>
+              <td class="image-cell">
+                <div class="image-placeholder">👨‍💼</div>
+              </td>
+            </tr>
+            <tr>
+              <td class="id-cell">#002</td>
+              <td class="datetime-cell">2024-06-19 13:15:42</td>
+              <td class="name-cell">Unknown Person</td>
+              <td class="percentage-cell percentage-high">89%</td>
+              <td class="image-cell">
+                <div class="image-placeholder">👩‍💻</div>
+              </td>
+            </tr>
+            <tr>
+              <td class="id-cell">#003</td>
+              <td class="datetime-cell">2024-06-19 11:45:18</td>
+              <td class="name-cell">Unknown Person</td>
+              <td class="percentage-cell percentage-medium">76%</td>
+              <td class="image-cell">
+                <div class="image-placeholder">👨‍🔧</div>
+              </td>
+            </tr>
+            <tr>
+              <td class="id-cell">#004</td>
+              <td class="datetime-cell">2024-06-19 09:22:33</td>
+              <td class="name-cell">Unknown Person</td>
+              <td class="percentage-cell percentage-low">45%</td>
+              <td class="image-cell">
+                <div class="image-placeholder">❓</div>
+              </td>
+            </tr>
+            <!-- <tr class="empty-row">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr> -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination">
+        <button class="pagination-btn">◀ Previous</button>
+        <button class="pagination-btn active">1</button>
+        <button class="pagination-btn">2</button>
+        <button class="pagination-btn">3</button>
+        <button class="pagination-btn">Next ▶</button>
+      </div>
+    </main>
+    <script src="{% static 'js/history.js' %}"></script>
+    <script src="{% static 'js/homepage.js' %}"></script>
+  </body>
+</html>

@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      href="../../static/images/base/Logo_noText.svg"
+      type="image/svg"
+    />
+    <link rel="stylesheet" href="{% static 'css/profile.css'%}" />
+    <link rel="stylesheet" href="{% static 'css/header.css'%}" />
+    <title>Profile</title>
+  </head>
+  <body>
+    <header class="header">
+      <div class="left-header">
+        <a href="{% url 'home' %}">
+          <img
+            class="logo-img"
+            src="{% static 'images/base/Logo.svg' %}"
+            alt="Logo"
+          />
+        </a>
+        <image
+          class="noti-img"
+          src="../static/images/base/noti-bell.svg"
+          onclick="notiPopup()"
+        ></image>
+      </div>
+
+      <nav class="nav-menu">
+        <a href="{% url 'history' %}" class="nav-item">History</a>
+        <a href="{% url 'profile' %}" class="nav-item">Username</a>
+        <a href="{% url 'signin' %}" class="nav-item login-btn">Sign in</a>
+      </nav>
+    </header>
+
+    <main class="main-content">
+      <div class="main-header">
+        <div class="user-avatar">AVT</div>
+        <div class="user-name">Name</div>
+      </div>
+
+      <div class="profile-container">
+        <div class="profile-container-left">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" value="AAAA" />
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="text" id="phone" value="0909090909" />
+          </div>
+
+          <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" id="address" value="227 Nguyen Van Cu" />
+          </div>
+        </div>
+
+        <div class="profile-container-right">
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="text" id="password" value="11111111" />
+            <div class="change-container">
+              <div class="change-btn">Change</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script src="{% static 'js/homepage.js' %}"></script>
+  </body>
+</html>

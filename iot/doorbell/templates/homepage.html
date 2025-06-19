@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/homepage.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/popup.css'%}" />
+    <link rel="stylesheet" href="{% static 'css/header.css'%}" />
+    <link
+      rel="icon"
+      href="../../static/images/base/Logo_noText.svg"
+      type="image/svg"
+    />
+    <title>Doorbell Recognition</title>
+  </head>
+  <body>
+    <header class="header">
+      <div class="left-header">
+        <a href="{% url 'home' %}">
+          <img
+            class="logo-img"
+            src="{% static 'images/base/Logo.svg' %}"
+            alt="Logo"
+          />
+        </a>
+        <image
+          class="noti-img"
+          src="../static/images/base/noti-bell.svg"
+          onclick="notiPopup()"
+        ></image>
+      </div>
+
+      <nav class="nav-menu">
+        <a href="{% url 'history' %}" class="nav-item">History</a>
+        <a href="{% url 'profile' %}" class="nav-item">Username</a>
+        <a href="{% url 'signin' %}" class="nav-item login-btn">Sign in</a>
+      </nav>
+    </header>
+    <main class="main-content">
+      <div class="main-title">Video Streaming</div>
+      <div class="video-container">
+        <div class="video-placeholder"></div>
+      </div>
+
+      <button class="openDoor-btn" onclick="openDoor()">Open Door</button>
+    </main>
+    <script src="{% static 'js/homepage.js' %}"></script>
+  </body>
+</html>

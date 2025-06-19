@@ -1,0 +1,122 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #f8fcff 0%, #e8f4f8 100%);
+  min-height: 100vh;
+  color: #2c3e50;
+}
+
+.main-content {
+  padding: 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.main-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.user-avatar {
+  width: 100px;
+  height: 100px;
+  background-color: #00aaff;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.user-name {
+  color: #00aaff;
+  font-weight: bold;
+  font-size: xx-large;
+}
+
+.profile-container {
+  display: flex;
+  background-color: white;
+  justify-content: space-between;
+  box-shadow: 1px 2px 15px #00b7ff;
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.profile-container-left {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  border-right: 1px solid #1a1313;
+  width: 50%;
+  margin: 5px 0px 5px 0px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+
+input {
+  background-color: #dff6ff;
+  border: 1px solid gray;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 2px 2px 5px #ccc;
+  font-size: larger;
+  font-weight: 400;
+}
+
+label {
+  color: #00b7ff;
+  font-weight: bold;
+  font-size: x-large;
+}
+
+.profile-container-right {
+  display: flex;
+  width: 50%;
+  flex-direction: column;
+  margin: 5px 0px 5px 0px;
+}
+
+.change-container {
+  display: flex;
+  justify-content: flex-end;
+  margin: 20px 0px 0px 0px;
+}
+
+.change-btn {
+  padding: 16px 22px;
+  background-color: #00aaff;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: large;
+}
+
+.change-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 15px rgba(0, 183, 255, 0.4);
+}
+
+.change-btn:active {
+  transform: translateY(-1px);
+  transform: scale(0.95);
+}
