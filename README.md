@@ -7,6 +7,6 @@
 1. **Clone the repository:**
 
 ```bash
-git clone https://github.com/your-username/doorbell-recognition.git
+git clone https://github.com/khoadole/Doorbell-Recognition.git
 cd doorbell-recognition
 ```
