@@ -1,6 +1,6 @@
 # Doorbell Recognition
 
-**Doorbell Recognition** is a web application built with Django that allows users to stream video from a door camera and remotely control door access. The project also integrates the `foobar` library to handle natural language tasks such as word pluralization and singularization.
+**Doorbell Recognition** is a web application built with Django that allows users to stream video from a door camera and remotely control door access.
 
 ## 📦 Installation
 
