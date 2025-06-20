@@ -1,28 +1,27 @@
 {% load static %}
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Inter:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="{% static 'css/signin.css'%}" />
+    <link rel="stylesheet" href="{% static 'css/signup.css'%}" />
     <link
       rel="icon"
       href="../../static/images/base/Logo_noText.svg"
       type="image/svg"
     />
-    <title>Sign In</title>
   </head>
   <body>
     <div class="container">
       <div class="left-section">
         <div class="logo-section">
           <img
-            src="../../static/images/base/Logo.svg
-            "
+            src="../../static/images/base/Logo.svg"
             alt="Doorbell Recognition"
             class="logo-icon"
           />
@@ -37,8 +36,8 @@
       <div class="divider"></div>
 
       <div class="right-section">
-        <div class="sign-in-container">
-          <h1 class="main-title">Sign In</h1>
+        <div class="sign-up-container">
+          <h1 class="main-title">Sign Up</h1>
 
           <form>
             <div class="form-group">
@@ -60,34 +59,44 @@
                 placeholder="Enter your password"
               />
             </div>
+
+            <div class="form-group">
+              <label class="form-label" for="confirm-password">Confirm Password</label>
+              <input
+                type="password"
+                id="confirm-password"
+                class="form-input"
+                placeholder="Re-enter your password"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="phone">Phone Number</label>
+              <input
+                type="tel"
+                id="phone"
+                class="form-input"
+                placeholder="Enter your phone number"
+              />
+            </div>
+
+            <div style="display: flex; justify-content: center; margin-top: 30px;">
+              <button type="submit" class="sign-up-button">Sign Up</button>
+            </div>
           </form>
-
-          <div class="button-row">
-            <div class="sign-in-section">
-              <button type="submit" class="sign-in-button">Sign in</button>
-            </div>
-
-            <div class="sign-up-section">
-              <div class="sign-up-text">
-                Don't have an<br />
-                account yet?
-              </div>
-              <a href="{% url 'signup' %}" class="sign-up-button">Sign up</a>
-            </div>
-          </div>
-
-          <div class="divider-text">------Or------</div>
-
-          <button type="button" class="google-sign-in">
-            <img
-              src="../../static/images/signin/Google_icon.svg"
-              alt="Google"
-              class="google-icon"
-            />
-            Sign in with Google
-          </button>
         </div>
       </div>
     </div>
+      <script>
+    document.getElementById("signup-form").addEventListener("submit", function (e) {
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirm-password").value;
+
+      if (password !== confirmPassword) {
+        e.preventDefault(); // stop form submission
+        alert("Passwords do not match. Please re-enter.");
+      }
+    });
+  </script>
   </body>
 </html>

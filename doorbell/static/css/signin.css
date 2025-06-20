@@ -160,6 +160,9 @@ body {
 }
 
 .sign-up-button {
+  display: inline-flex;                /* Allows centering */
+  align-items: center;
+  justify-content: center;
   width: 184px;
   height: 63px;
   background: #00b7ff;
@@ -171,7 +174,11 @@ body {
   font-family: "Open Sans", sans-serif;
   cursor: pointer;
   transition: background-color 0.2s;
+  text-decoration: none;              /* Removes underline for <a> */
+  text-align: center;
+  line-height: 1;                     /* Avoids vertical misalignment */
 }
+
 
 .sign-up-button:hover {
   background: #0095cc;

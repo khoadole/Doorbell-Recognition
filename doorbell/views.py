@@ -14,3 +14,6 @@ def profile(request):
 
 def signin(request):
     return render(request, 'components/signin.html')
+
+def signup(request):
+    return render(request, 'components/signup.html')
