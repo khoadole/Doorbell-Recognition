@@ -6,5 +6,6 @@ urlpatterns = [
     path('get-popup-template/', views.get_popup_template, name='get_popup_template'),
     path('history', views.history, name='history'),
     path('profile', views.profile, name='profile'),
-    path('sigin', views.signin, name='signin'),
+    path('signin', views.signin, name='signin'),
+    path('signup', views.signup, name='signup'),
 ]
