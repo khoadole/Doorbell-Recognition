@@ -40,12 +40,14 @@
         <div class="sign-in-container">
           <h1 class="main-title">Sign In</h1>
 
-          <form>
+          <form id="signin-form" method="post" action="{% url 'signin' %}">
+            {% csrf_token %}
             <div class="form-group">
               <label class="form-label" for="username">Username</label>
               <input
                 type="text"
                 id="username"
+                name="username"
                 class="form-input"
                 placeholder="Enter your username"
               />
@@ -56,17 +58,19 @@
               <input
                 type="password"
                 id="password"
+                name="password" 
                 class="form-input"
                 placeholder="Enter your password"
               />
-            </div>
-          </form>
-
+            </div>            
+            {% if error %}
+              <div style="color: red; margin-top: 10px;">{{ error }}</div>
+            {% endif %}            
           <div class="button-row">
             <div class="sign-in-section">
               <button type="submit" class="sign-in-button">Sign in</button>
-            </div>
-
+          </div>
+          </form>
             <div class="sign-up-section">
               <div class="sign-up-text">
                 Don't have an<br />
