@@ -40,7 +40,7 @@
         <div class="sign-in-container">
           <h1 class="main-title">Sign In</h1>
 
-          <form id="signin-form" method="post" action="{% url 'signin' %}">
+          <form id="signin-form" method="post" action="{% url 'user:signin' %}">
             {% csrf_token %}
             <div class="form-group">
               <label class="form-label" for="username">Username</label>
@@ -63,8 +63,10 @@
                 placeholder="Enter your password"
               />
             </div>            
-            {% if error %}
-              <div style="color: red; margin-top: 10px;">{{ error }}</div>
+            {% if messages %}
+              {% for message in messages %}
+              <div style="color: red; margin-top: 10px;">{{ message }}</div>
+              {% endfor %}
             {% endif %}            
           <div class="button-row">
             <div class="sign-in-section">
@@ -76,7 +78,7 @@
                 Don't have an<br />
                 account yet?
               </div>
-              <a href="{% url 'signup' %}" class="sign-up-button">Sign up</a>
+              <a href="{% url 'user:signup' %}" class="sign-up-button">Sign up</a>
             </div>
           </div>
 

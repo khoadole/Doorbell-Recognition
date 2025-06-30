@@ -33,13 +33,13 @@
       <nav class="nav-menu">
         <a href="{% url 'history' %}" class="nav-item">History</a>
         {% if request.session.logged_in %}
-          <a href="{% url 'profile' %}" class="nav-item">
+          <a href="{% url 'user:profile' %}" class="nav-item">
             {{ request.session.username }}
           </a>
-          <a href="{% url 'signout' %}" class="nav-item login-btn">Sign out</a>
+          <a href="{% url 'user:signout' %}" class="nav-item login-btn">Sign out</a>
         {% else %}
-          <a href="{% url 'profile' %}" class="nav-item">Profile</a>
-          <a href="{% url 'signin' %}" class="nav-item login-btn">Sign in</a>
+          <a href="{% url 'user:profile' %}" class="nav-item">Profile</a>
+          <a href="{% url 'user:signin' %}" class="nav-item login-btn">Sign in</a>
         {% endif %}
       </nav>
     </header>

@@ -39,10 +39,12 @@
         <div class="sign-up-container">
           <h1 class="main-title">Sign Up</h1>
 
-          <form>
+          <form method="POST">
+            {% csrf_token %}
             <div class="form-group">
               <label class="form-label" for="username">Username</label>
               <input
+                name="username"
                 type="text"
                 id="username"
                 class="form-input"
@@ -53,6 +55,7 @@
             <div class="form-group">
               <label class="form-label" for="password">Password</label>
               <input
+                name="password"
                 type="password"
                 id="password"
                 class="form-input"
@@ -63,6 +66,7 @@
             <div class="form-group">
               <label class="form-label" for="confirm-password">Confirm Password</label>
               <input
+                name="confirm-password"
                 type="password"
                 id="confirm-password"
                 class="form-input"
@@ -73,6 +77,7 @@
             <div class="form-group">
               <label class="form-label" for="phone">Phone Number</label>
               <input
+                name="phone"
                 type="tel"
                 id="phone"
                 class="form-input"
