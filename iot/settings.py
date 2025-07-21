@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-9s3vco*(=(7bkq5i$onx#7c0waw-0muj#$z)0&(^a)0mzuq-ro
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*', '192.168.1.21']
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 'daphne',
     'doorbell',
     'users',
 ]
@@ -138,3 +139,5 @@ MEIDA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # AUTH_USER_MODEL = 'users.User'
+
+ASGI_APPLICATION = "iot.asgi.application"
