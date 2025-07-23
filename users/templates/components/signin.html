@@ -62,12 +62,18 @@
                 class="form-input"
                 placeholder="Enter your password"
               />
+              <div style="text-align: right; margin-top: 5px;">
+                <a href="{% url 'user:forgot_password' %}" 
+                  style="color: #00b7ff; font-size: 25px; font-weight: 600; font-family: 'Open Sans', sans-serif;">
+                  Forgot password?
+                </a>
+              </div>
             </div>            
-            {% if messages %}
-              {% for message in messages %}
-              <div style="color: red; margin-top: 10px;">{{ message }}</div>
-              {% endfor %}
-            {% endif %}            
+              {% if messages %}
+                {% for message in messages %}
+                <div style="color: red; margin-top: 10px;">{{ message }}</div>
+                {% endfor %}
+              {% endif %}     
           <div class="button-row">
             <div class="sign-in-section">
               <button type="submit" class="sign-in-button">Sign in</button>

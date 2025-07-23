@@ -12,6 +12,6 @@ class User(Document):
     password = StringField(required=True)
     phonenumber = StringField()
     address = StringField()
-    email = EmailField()
+    email = EmailField(unique=True)
     avatar = FileField()
     create_at = DateField(default=datetime.datetime.now)

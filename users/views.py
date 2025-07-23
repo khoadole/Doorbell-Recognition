@@ -51,12 +51,12 @@ def signup(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         confirm_pass = request.POST.get('confirm-password')
-        phone = request.POST.get('phone')
+        email = request.POST.get('email')
 
         print(username)
         print(password)
         print(confirm_pass)
-        print(phone)
+        print(email)
 
         if User.objects(username=username).first():
             messages.error(request, 'User alrealy exist!')
@@ -66,11 +66,16 @@ def signup(request):
             messages.error(request, 'Password not match!')
             return redirect('user:signup')
         
+        if User.objects(email=email).first():
+            messages.error(request, 'Email alrealy exist!')
+            return redirect('user:signup')
+        
         hashed_pass = make_password(password)
+        
         user = User(
             username=username,
             password=hashed_pass,
-            phonenumber=phone
+            email=email
         )
 
         user.save()
@@ -82,3 +87,9 @@ def signup(request):
 def signout(request):
     request.session.flush()
     return redirect('home')
+
+def forgot_password(request):
+    return render(request, 'components/forgot_password.html')
+
+def reset_password(request):
+    return render(request, 'components/reset_password.html')

@@ -128,6 +128,7 @@ body {
   flex: 1;
 }
 
+
 .sign-in-button {
   width: 175px;
   height: 62px;
@@ -160,7 +161,7 @@ body {
 }
 
 .sign-up-button {
-  display: inline-flex;                /* Allows centering */
+  display: inline-flex;               
   align-items: center;
   justify-content: center;
   width: 184px;
@@ -174,9 +175,9 @@ body {
   font-family: "Open Sans", sans-serif;
   cursor: pointer;
   transition: background-color 0.2s;
-  text-decoration: none;              /* Removes underline for <a> */
+  text-decoration: none;             
   text-align: center;
-  line-height: 1;                     /* Avoids vertical misalignment */
+  line-height: 1;                   
 }
 
 
