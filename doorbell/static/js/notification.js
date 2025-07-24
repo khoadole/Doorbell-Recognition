@@ -9,12 +9,12 @@ function showNotification(type, message) {
     const icon = document.createElement('img');
     icon.style.width = '80px';
     icon.style.height = '80px';
-    icon.src = type.includes('success') ? '/static/images/check.svg' : '/static/images/cross.svg';
-    icon.alt = type.includes('success') ? 'Success' : 'Error';
-    iconContainer.appendChild(icon);
 
+    icon.src = type.includes('success') ? checkIconUrl : crossIconUrl;
+    icon.alt = type.includes('success') ? 'Success' : 'Error';
+
+    iconContainer.appendChild(icon);
     overlay.style.display = 'flex';
-    setTimeout(() => closeNotification(), 3000);
 }
 
 function closeNotification() {

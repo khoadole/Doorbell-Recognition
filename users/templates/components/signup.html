@@ -94,6 +94,12 @@
     </div>
     {% include 'components/notification.html' %}
 
+    <script>
+        const checkIconUrl = "{% static 'images/base/check.svg' %}";
+        const crossIconUrl = "{% static 'images/base/cross.svg' %}";
+    </script>
+
+
     <script src="{% static 'js/notification.js' %}"></script>
 
     {% if messages %}
