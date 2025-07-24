@@ -92,16 +92,19 @@
         </div>
       </div>
     </div>
-      <script>
-    document.getElementById("signup-form").addEventListener("submit", function (e) {
-      const password = document.getElementById("password").value;
-      const confirmPassword = document.getElementById("confirm-password").value;
+    {% include 'components/notification.html' %}
 
-      if (password !== confirmPassword) {
-        e.preventDefault(); // stop form submission
-        alert("Passwords do not match. Please re-enter.");
-      }
+    <script src="{% static 'js/notification.js' %}"></script>
+
+    {% if messages %}
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        {% for message in messages %}
+            showNotification("{{ message.tags }}", "{{ message|escapejs }}");
+        {% endfor %}
     });
-  </script>
+    </script>
+    {% endif %}
+
   </body>
 </html>

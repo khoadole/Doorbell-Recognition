@@ -86,5 +86,19 @@
       </div>
     </main>
     <script src="{% static 'js/homepage.js' %}"></script>
+
+    {% include 'components/notification.html' %}
+
+    <script src="{% static 'js/notification.js' %}"></script>
+
+    {% if messages %}
+        <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            {% for message in messages %}
+                showNotification("{{ message.tags }}", "{{ message.message|escapejs }}");
+            {% endfor %}
+        });
+        </script>
+    {% endif %}
   </body>
 </html>

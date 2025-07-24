@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification Popup</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="notification-styles.css">
+</head>
+<body>
+    <div class="notification-container">
+        <!-- Notification Popup -->
+        <div class="notification-overlay" style="display:none;">
+            <div class="notification-popup">
+                <div class="notification-content">
+                    <!-- Title -->
+                    <h1 class="notification-title">Notification</h1>
+
+                    <!-- Icon container -->
+                    <div class="notification-icon-container">
+                        <div class="notification-icon-placeholder" id="notificationIcon"></div>
+                    </div>
+
+                    <!-- Message -->
+                    <div class="notification-message-container">
+                        <p class="notification-message" id="notificationMessage"></p>
+                    </div>
+                </div>
+
+                <!-- Close button -->
+                <div class="notification-button-container">
+                    <button class="notification-close-button" onclick="closeNotification()">Close</button>
+                </div>
+            </div> <!-- Close .notification-popup -->
+        </div> <!-- Close .notification-overlay -->
+    </div> <!-- Close .notification-container -->
+
+    <script>
+        function closeNotification() {
+            const overlay = document.querySelector('.notification-overlay');
+            overlay.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

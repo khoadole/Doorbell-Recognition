@@ -89,7 +89,49 @@ def signout(request):
     return redirect('home')
 
 def forgot_password(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+
+        # Check if email exists in database
+        if not User.objects(email=email).first():
+            messages.error(request, "Email doesn't exist in database!")
+            return redirect('user:forgot_password')
+
+        # If email exists, continue with sending OTP or reset logic
+        messages.success(request, "OTP sent to your email.")
+        return redirect('user:reset_password')
+
     return render(request, 'components/forgot_password.html')
 
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from .models import User
+
 def reset_password(request):
+    if request.method == 'POST':
+        otp = request.POST.get('otp')
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm-password')
+
+        correct_otp = request.session.get('reset_otp') # Assumption
+
+        # Validate OTP
+        if otp != correct_otp:
+            messages.error(request, 'Incorrect OTP!')
+            return redirect('user:reset_password')
+
+        # Validate password match
+        if password != confirm_password:
+            messages.error(request, 'Passwords do not match!')
+            return redirect('user:reset_password')
+
+        # Update password logic
+        email = request.session.get('reset_email')  # Assuming email stored in session
+        user = User.objects(email=email).first()
+        if user:
+            user.password = password
+            user.save()
+            messages.success(request, 'Password reset successfully! Please sign in.')
+            return redirect('user:signin')
+
     return render(request, 'components/reset_password.html')
