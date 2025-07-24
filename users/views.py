@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.hashers import make_password, check_password
 from .models import User
 from .decorators import login_required
+from .utils import sendOtp
 
 # Create your views here.
 
@@ -99,6 +100,8 @@ def forgot_password(request):
 
         # If email exists, continue with sending OTP or reset logic
         messages.success(request, "OTP sent to your email.")
+        user = User.objects(email=email)
+        sendOtp(user)
         return redirect('user:reset_password')
 
     return render(request, 'components/forgot_password.html')

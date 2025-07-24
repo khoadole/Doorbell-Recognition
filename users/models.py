@@ -1,4 +1,4 @@
-from mongoengine import Document, StringField, FileField, EmailField, DateField
+from mongoengine import Document, StringField, FileField, EmailField, DateField, DateTimeField
 import datetime
 
 
@@ -15,3 +15,9 @@ class User(Document):
     email = EmailField(unique=True)
     avatar = FileField()
     create_at = DateField(default=datetime.datetime.now)
+
+class OtpToken(Document):
+    user = EmailField(unique=True)
+    otp_code = StringField()
+    created_at = DateTimeField(default=datetime.datetime.now)
+    expires_at = DateTimeField()

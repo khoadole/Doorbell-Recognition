@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from mongoengine import connect
 from pathlib import Path
 import os
+import json
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -148,3 +149,16 @@ MESSAGE_TAGS = {
     messages.ERROR: 'error',
     messages.SUCCESS: 'success',
 }
+
+# Load email json file
+with open("email.json", 'r') as f:
+    data = json.load(f)
+
+# Server's email configuration
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = data["email"] #Email to send messesges
+EMAIL_HOST_PASSWORD = data["pass"] #Password to allow django accessing the email
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+ALLOWED_HOSTS = ['*']
