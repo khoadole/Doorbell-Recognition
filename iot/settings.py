@@ -162,3 +162,8 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 ALLOWED_HOSTS = ['*']
+
+# MQTT setting
+MQTT_BROKER = "broker.hivemq.com"  # Or your local broker IP
+MQTT_PORT = 1883
+MQTT_TOPIC = "group15_aiot_hcmus"

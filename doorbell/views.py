@@ -3,6 +3,7 @@ from django.http import StreamingHttpResponse, HttpResponse
 from django.core.files.storage import default_storage
 from django.shortcuts import render, redirect
 from users.decorators import login_required
+from .mqtt import publish_to_device
 import time
 
 latest_frame = None
@@ -31,6 +32,10 @@ def video_feed(request):
     return StreamingHttpResponse(gen(), content_type='multipart/x-mixed-replace; boundary=frame')
 
 def home(request):
+    # publish_to_device("haha")
+    if request.method == "POST":
+        publish_to_device(True)
+        
     return render(request, 'homepage.html')
 
 def get_popup_template(request):

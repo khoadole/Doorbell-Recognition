@@ -50,8 +50,10 @@
         <!-- <div class="video-placeholder"></div> -->
          <img src="{% url 'video_feed' %}" width="640" height="480" />
       </div>
-
-      <button class="openDoor-btn" onclick="openDoor()">Open Door</button>
+      <form method="post" id="open-door">
+        {% csrf_token %}
+          <button type="button" class="openDoor-btn" onclick="openDoor()">Open Door</button>
+      </form>
     </main>
     <script src="{% static 'js/homepage.js' %}"></script>
   </body>

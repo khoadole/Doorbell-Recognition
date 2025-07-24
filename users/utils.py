@@ -20,7 +20,7 @@ from datetime import datetime, timedelta
 #             os.remove(old_avatar.path)
 
 def sendOtp(user):
-    otp = OtpToken.objects(user=user.email)
+    otp = OtpToken.objects(user=user.email).first()
     if not otp:
         otp = OtpToken(user=user.email)
 

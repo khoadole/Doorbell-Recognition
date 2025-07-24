@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password, check_password
-from .models import User
+from .models import User, OtpToken
 from .decorators import login_required
 from .utils import sendOtp
-
+from datetime import datetime
 # Create your views here.
 
 @login_required
@@ -54,10 +54,10 @@ def signup(request):
         confirm_pass = request.POST.get('confirm-password')
         email = request.POST.get('email')
 
-        print(username)
-        print(password)
-        print(confirm_pass)
-        print(email)
+        # print(username)
+        # print(password)
+        # print(confirm_pass)
+        # print(email)
 
         if User.objects(username=username).first():
             messages.error(request, 'User alrealy exist!')
@@ -100,28 +100,39 @@ def forgot_password(request):
 
         # If email exists, continue with sending OTP or reset logic
         messages.success(request, "OTP sent to your email.")
-        user = User.objects(email=email)
+        user = User.objects(email=email).first()
+        request.session['reset_email'] = email
         sendOtp(user)
-        return redirect('user:reset_password')
+        # return redirect('user:reset_password')
+        return render(request, 'components/reset_password.html', {
+                'email': email
+            })
 
     return render(request, 'components/forgot_password.html')
 
-from django.contrib import messages
-from django.shortcuts import render, redirect
-from .models import User
-
 def reset_password(request):
+    email = request.session.get('reset_email')  # Assuming email stored in session
+    if not email:
+        messages.error(request, 'Eiyo: Did you input your email?')
+        return redirect('user:forgot_password')
+
     if request.method == 'POST':
         otp = request.POST.get('otp')
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm-password')
 
-        correct_otp = request.session.get('reset_otp') # Assumption
+        # correct_otp = request.session.get('reset_otp') # Assumption
+        correct_otp = OtpToken.objects(user=email).first()
 
         # Validate OTP
-        if otp != correct_otp:
+        if otp != correct_otp.otp_code:
             messages.error(request, 'Incorrect OTP!')
             return redirect('user:reset_password')
+        
+        # Check outdate OTP
+        if datetime.now() > correct_otp.expires_at:
+            messages.error(request, 'Outdated OTP!')
+            return redirect('user:forgot_password')
 
         # Validate password match
         if password != confirm_password:
@@ -129,10 +140,11 @@ def reset_password(request):
             return redirect('user:reset_password')
 
         # Update password logic
-        email = request.session.get('reset_email')  # Assuming email stored in session
+        
         user = User.objects(email=email).first()
         if user:
-            user.password = password
+            del request.session['reset_email']
+            user.password = make_password(password)
             user.save()
             messages.success(request, 'Password reset successfully! Please sign in.')
             return redirect('user:signin')
