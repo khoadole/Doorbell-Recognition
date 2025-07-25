@@ -142,8 +142,14 @@ body {
   color: #ef4444;
 }
 
-.image-cell {
-  text-align: center;
+.image-cell img {
+    display: block;
+    margin: 0 auto;
+    width: 60px;       /* Same size as placeholder */
+    height: 60px;      /* Keep uniform */
+    object-fit: cover; /* Crop to fit without distortion */
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .image-placeholder {
@@ -261,3 +267,9 @@ body {
   }
 }
 
+/* Center all table headers and cells */
+.table th,
+.table td {
+    text-align: center;
+    vertical-align: middle;
+}
