@@ -48,12 +48,12 @@
       <div class="main-title">Video Streaming</div>
       <div class="video-container">
         <!-- <div class="video-placeholder"></div> -->
-         <img src="{% url 'video_feed' %}" width="640" height="480" />
+        <!-- <img src="{% url 'video_feed' %}" width="640" height="480" /> -->
+        <img id="video-stream" width="640" height="480" style="display:none;" />
+        <button onclick="startStream()">Start Streaming</button>
+        <button onclick="stopStream()">Stop Stream</button>
       </div>
-      <form method="post" id="open-door">
-        {% csrf_token %}
-          <button type="button" class="openDoor-btn" onclick="openDoor()">Open Door</button>
-      </form>
+        <button type="button" class="openDoor-btn" onclick="openDoor()">Open Door</button>
     </main>
     <script src="{% static 'js/homepage.js' %}"></script>
   </body>

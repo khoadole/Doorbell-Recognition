@@ -66,7 +66,27 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
+            {% for log in logs %}
+              <tr>
+                <td class="id-cell">#{{ forloop.counter }}</td>
+                <td class="datetime-cell">{{ log.date }}</td>
+                <td class="name-cell">{{ log.name }}</td>
+                <td class="percentage-cell percentage-high">{{ log.percent }}%</td>
+                {% if log.status %}
+                  <td class="status-cell status-opened">Opened</td>
+                {% else %}
+                  <td class="status-cell status-failed">Failed</td>
+                {% endif %}
+                <td class="image-cell">
+                  {% if log.image %}
+                    <img src="{{ log.image }}" alt="{{ log.name }}" class="image-preview" />
+                  {% else %}
+                    <div class="image-placeholder">❓</div>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+            <!-- <tr>
               <td class="id-cell">#001</td>
               <td class="datetime-cell">2024-06-19 14:30:25</td>
               <td class="name-cell">Unknown Person</td>
@@ -105,18 +125,18 @@
               <td class="image-cell">
                 <div class="image-placeholder">❓</div>
               </td>
-            </tr>
+            </tr> -->
           </tbody>
         </table>
       </div>
 
-      <div class="pagination">
+      <!-- <div class="pagination">
         <button class="pagination-btn">◀ Previous</button>
         <button class="pagination-btn active">1</button>
         <button class="pagination-btn">2</button>
         <button class="pagination-btn">3</button>
         <button class="pagination-btn">Next ▶</button>
-      </div>
+      </div> -->
     </main>
     <script src="{% static 'js/history.js' %}"></script>
     <script src="{% static 'js/homepage.js' %}"></script>

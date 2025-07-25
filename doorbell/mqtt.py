@@ -1,8 +1,7 @@
 import paho.mqtt.client as mqtt
 from django.conf import settings
+from .models import DeviceLog
 import json
-import threading
-import time
 
 TOPIC_TO_SERVER = f"{settings.MQTT_TOPIC}/to_server"
 TOPIC_TO_DEVICE = f"{settings.MQTT_TOPIC}/to_device"
@@ -28,8 +27,20 @@ def on_message(client, userdata, msg):
         print("[MQTT] Invalid JSON received.")
 
 def handle_device_message(data):
-    # You can log to DB or trigger signals here
-    print(f"[MQTT] Handling device message: {data}")
+    if 'image' in data:
+        log = DeviceLog(
+            name = data['name'],
+            percent = data['percent'],
+            status = data['status'],
+            image = data['image']
+        
+        )
+        log.save()
+        
+        print(f"[MQTT] Handling device message: {data['name']}, {data['percent']}, {data['status']}")
+    else:
+        print(f"[MQTT] Handling device message: {data}")
+
 
 def start():
     client.on_connect = on_connect

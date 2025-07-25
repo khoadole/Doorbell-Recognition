@@ -1,12 +1,38 @@
+// Open door main function fetch api opendoor
+function door() {
+    const csrfToken = getCookie('csrftoken');
+    fetch('/api/open-door', {
+        method: "POST",
+        headers: {
+            'X-CSRFToken': csrfToken,
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            console.log("Door opened!");
+        }
+        else {
+            console.error("Failed to open door: " + (data.message || "Unknown error"));
+        }
+    })
+    .catch(error => {
+        console.error("Request failed: " + error);
+    });
+}
+
 // Open Door button
 function openDoor() {
   const button = document.querySelector(".openDoor-btn");
   button.style.background =
     "linear-gradient(135deg, #10b981 0%, #059669 100%)";
   button.textContent = "Opening door...";
+  
 
   setTimeout(() => {
     button.textContent = "Door opened!";
+    door()
     setTimeout(() => {
       button.style.background =
         "linear-gradient(135deg, #00b7ff 0%, #00a0e6 100%)";
@@ -38,24 +64,48 @@ async function initPopupTemplate() {
   }
 }
 
-function notiPopup(recognitionData) {
+function notiPopup(recognitionData = null) {
     // NEED TO GET DATA
-    const data = recognitionData || {
-        name: "Nguyen Van C",
-        confidence: 92,
-        avatar: "👨‍💼",
-        timestamp: new Date().toLocaleString()
-    };
+    // const data = recognitionData || {
+    //     name: "Nguyen Van C",
+    //     confidence: 50,
+    //     avatar: "👨‍💼",
+    //     timestamp: new Date().toLocaleString()
+    // };
     
     const body = document.body;
     body.insertAdjacentHTML('beforeend', popupTemplate);
-    
     body.style.overflow = 'hidden';
-    
-    setTimeout(() => {
+
+    const update = (data) => {
         updatePopupData(data);
         setupPopupEventListeners();
-    }, 10);
+    };
+
+    if (recognitionData) {
+        update(recognitionData);
+    } else {
+        fetch("api/latest-recognition")
+            .then(response => response.json())
+            .then(data => {
+                update(data);
+            })
+            .catch(error => {
+                console.error("Failed to fetch latest recognition data: ", error);
+                // fall back
+                update({
+                    name: "Unknown",
+                    confidence: 0,
+                    avatar: "👨‍💼",
+                    timestamp: new Date().toLocaleString()
+                });
+            });
+    }
+    
+    // setTimeout(() => {
+    //     updatePopupData(data);
+    //     setupPopupEventListeners();
+    // }, 10);
 }
 
 function updatePopupData(data) {
@@ -67,7 +117,24 @@ function updatePopupData(data) {
     if (nameElement) nameElement.textContent = data.name;
     if (confidenceElement) confidenceElement.textContent = data.confidence + '%';
     if (confidenceFill) confidenceFill.style.width = data.confidence + '%';
-    if (avatar) avatar.textContent = data.avatar;
+    if (avatar) {
+        if (data.avatar.startsWith("data:image")) {
+            // If avatar is an image, assume it's an <img>
+            if (avatar.tagName.toLowerCase() == 'img') {
+                avatar.src = data.avatar;
+            } else {
+                // Replace emoji div/span with an <img> tag
+                const img = document.createElement('img');
+                img.src = data.avatar;
+                img.className = avatar.className;
+                avatar.replaceWith(img);
+            }
+        } else {
+            // If avatar is emoji/text, show it directly
+            avatar.textContent = data.avatar;
+        }
+        
+    }
 }
 
 // ===== UTILITY FUNCTIONS =====
@@ -97,6 +164,7 @@ function closePopup() {
 function openDoorFromPopup(personName) {
     console.log(`Opening door for: ${personName}`);
     // Logic open door
+    door();
     closePopup();
 }
 
@@ -116,6 +184,18 @@ function getCookie(name) {
     return cookieValue;
 }
 
+// =========== STREAMing =============
+function startStream() {
+  const video = document.getElementById('video-stream');
+  video.src = "/api/view_feed";
+  video.style.display = "block";
+}
+
+function stopStream() {
+  const video = document.getElementById('video-stream');
+  video.src = "";  // stops the stream
+  video.style.display = "none";
+}
 
 // function handleRecognitionResult(apiResponse) {
 //     const recognitionData = {

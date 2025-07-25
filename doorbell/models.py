@@ -1,4 +1,4 @@
-from mongoengine import Document, StringField, DateField, ReferenceField, FloatField, BinaryField
+from mongoengine import Document, StringField, DateField, ReferenceField, FloatField, BooleanField, DateTimeField
 from users.models import User
 import datetime
 
@@ -16,9 +16,10 @@ class FaceID(Document):
     date_add = DateField(default=datetime.datetime.now)
 
 class DeviceLog(Document):
-    device = ReferenceField(Device, required=True)
+    # device = ReferenceField(Device, required=True)
     name = StringField(default="Unknown Person")
     percent = FloatField(required=True)
-    date_add = DateField(default=datetime.datetime.now)
-    image = BinaryField()
+    status = BooleanField(default=False)
+    date_add = DateTimeField(default=datetime.datetime.now)
+    image = StringField()
     
