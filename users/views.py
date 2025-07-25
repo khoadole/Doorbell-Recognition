@@ -59,6 +59,10 @@ def signup(request):
         # print(confirm_pass)
         # print(email)
 
+        if email == '' or username == '':
+            messages.error(request, 'Please input username and email!')
+            return redirect('user:signup')
+        
         if User.objects(username=username).first():
             messages.error(request, 'User alrealy exist!')
             return redirect('user:signup')

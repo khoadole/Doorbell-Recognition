@@ -205,6 +205,20 @@ body {
   border-color: transparent;
 }
 
+.status-cell {
+  font-weight: 600;
+  text-transform: capitalize;
+  padding: 1.25rem 1.5rem;
+}
+
+.status-opened {
+  color: #10b981 !important;
+}
+
+.status-failed {
+  color: #ef4444 !important;
+}
+
 @media (max-width: 768px) {
   .header {
     padding: 1rem;
@@ -246,3 +260,4 @@ body {
     font-size: 0.9rem;
   }
 }
+
