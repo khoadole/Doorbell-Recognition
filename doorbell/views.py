@@ -7,6 +7,7 @@ from .models import DeviceLog
 from .mqtt import publish_to_device
 import time
 import threading
+import datetime
 
 latest_frame = None
 frame_lock = threading.Lock()
@@ -64,7 +65,7 @@ def home(request):
     # publish_to_device("haha")
     # if request.method == "POST":
     #     publish_to_device(True)
-        
+    # print(datetime.datetime.now())
     return render(request, 'homepage.html')
 
 def get_popup_template(request):
