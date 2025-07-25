@@ -140,5 +140,25 @@
     </main>
     <script src="{% static 'js/history.js' %}"></script>
     <script src="{% static 'js/homepage.js' %}"></script>
+      <script>
+      document.addEventListener("DOMContentLoaded", function () {
+      const dateInput = document.getElementById("dateSearch");
+      const rows = document.querySelectorAll(".table tbody tr");
+
+      dateInput.addEventListener("input", function () {
+          const filterDate = dateInput.value; 
+          rows.forEach(row => {
+              const cellDate = row.querySelector(".datetime-cell").textContent.trim();
+              if (filterDate === "") {
+                  row.style.display = "";
+              } else if (cellDate.startsWith(filterDate)) {
+                  row.style.display = "";
+              } else {
+                  row.style.display = "none";
+              }
+          });
+      });
+  });
+        </script>
   </body>
 </html>
