@@ -51,11 +51,11 @@
         <!-- <img src="{% url 'video_feed' %}" width="640" height="480" /> -->
         <img id="video-stream" width="640" height="480" />
           <div style="margin-top: 15px; display: flex; gap: 15px;">
-              <button type="button" class="openDoor-btn" onclick="startStream()">Start Streaming</button>
-              <button type="button" class="openDoor-btn" onclick="stopStream()">Stop Stream</button>
+              <button id="start-btn" type="button" class="openDoor-btn" onclick="startStream()">Start Streaming</button>
+              <button id="stop-btn" type="button" class="openDoor-btn"  onclick="stopStream()">Stop Stream</button>
           </div>
       </div>
-        <button type="button" class="openDoor-btn" onclick="openDoor()">Open Door</button>
+        <button id="door-btn" type="button" class="openDoor-btn" onclick="openDoor()">Open Door</button>
     </main>
     <script src="{% static 'js/homepage.js' %}"></script>
   </body>
