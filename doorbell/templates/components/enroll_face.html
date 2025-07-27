@@ -1,0 +1,228 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/header.css'%}" />
+    <link rel="stylesheet" href="{% static 'css/enroll_face.css'%}" />
+    <link
+      rel="icon"
+      href="../../static/images/base/Logo_noText.svg"
+      type="image/svg"
+    />
+    <title>Enroll Face</title>
+  </head>
+  <body>
+    <header class="header">
+      <div class="left-header">
+        <a href="{% url 'home' %}">
+          <img
+            class="logo-img"
+            src="{% static 'images/base/Logo.svg' %}"
+            alt="Logo"
+          />
+        </a>
+        <image
+          class="noti-img"
+          src="../static/images/base/noti-bell.svg"
+          onclick="notiPopup()"
+        ></image>
+      </div>
+
+      <nav class="nav-menu">
+        <a href="{% url 'enroll_face' %}" class="nav-item">Enroll Faces</a>
+        <a href="{% url 'history' %}" class="nav-item">History</a>
+        {% if request.session.logged_in %}
+        <a href="{% url 'user:profile' %}" class="nav-item">
+          {{ request.session.username }}
+        </a>
+        <a href="{% url 'user:signout' %}" class="nav-item login-btn"
+          >Sign out</a
+        >
+        {% else %}
+        <a href="{% url 'user:profile' %}" class="nav-item">Profile</a>
+        <a href="{% url 'user:signin' %}" class="nav-item login-btn">Sign in</a>
+        {% endif %}
+      </nav>
+    </header>
+
+    <main class="main-content">
+      <div class="page-header">
+        <h1 class="page-title">Enrolled Faces</h1>
+        <div class="header-actions">
+          <div class="search-container">
+            <label class="search-label">Search by Date</label>
+            <input type="date" class="date-search" id="dateSearch" />
+          </div>
+          <button class="upload-btn" onclick="openUploadModal()">
+            <span class="upload-icon"></span>
+            Upload Face
+          </button>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Date & Time</th>
+              <th>Name</th>
+              <th>Image</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for face in enrolled_faces %}
+            <tr data-id="{{ face.id }}">
+              <td class="id-cell">#{{ forloop.counter }}</td>
+              <td class="datetime-cell">{{ face.date }}</td>
+              <td class="name-cell">{{ face.name }}</td>
+              <td class="image-cell">
+                {% if face.image %}
+                <img
+                  src="{{ face.image }}"
+                  alt="{{ face.name }}"
+                  class="image-preview"
+                />
+                {% else %}
+                <div class="image-placeholder">👤</div>
+                {% endif %}
+              </td>
+              <td class="action-cell">
+                <button
+                  class="delete-btn"
+                  onclick="deleteFace('{{ face.id }}', '{{ face.name }}')"
+                >
+                  <span class="delete-icon">X</span>
+                </button>
+              </td>
+            </tr>
+            {% empty %}
+            <tr class="empty-row">
+              <td colspan="5" class="empty-message">
+                No enrolled faces found. Upload your first face to get started!
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    <!-- Upload Modal -->
+    <div id="uploadModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Upload New Face</h2>
+          <span class="close" onclick="closeUploadModal()">&times;</span>
+        </div>
+        <form id="uploadForm" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="faceName">Person Name:</label>
+            <input
+              type="text"
+              id="faceName"
+              name="name"
+              required
+              placeholder="Enter person's name"
+            />
+          </div>
+          <div class="form-group">
+            <label for="faceImage">Face Image:</label>
+            <div
+              class="file-upload-area"
+              onclick="document.getElementById('faceImage').click()"
+            >
+              <div class="upload-placeholder">
+                <span class="upload-icon-large">📷</span>
+                <p>Click to select face image</p>
+                <p class="upload-hint">Supported: JPG, PNG, GIF (Max 5MB)</p>
+              </div>
+              <img
+                id="imagePreview"
+                class="image-preview-upload"
+                style="display: none"
+              />
+            </div>
+            <input
+              type="file"
+              id="faceImage"
+              name="image"
+              accept="image/*"
+              style="display: none"
+              required
+            />
+          </div>
+          <div class="modal-actions">
+            <button
+              type="button"
+              class="cancel-btn"
+              onclick="closeUploadModal()"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="submit-btn">Upload Face</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Confirm Delete</h2>
+          <span class="close" onclick="closeDeleteModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+          <p>
+            Are you sure you want to delete <strong id="deleteName"></strong>?
+          </p>
+          <p class="warning-text">This action cannot be undone.</p>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="cancel-btn" onclick="closeDeleteModal()">
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="delete-confirm-btn"
+            onclick="confirmDelete()"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="{% static 'js/enroll_face.js' %}"></script>
+    <script src="{% static 'js/homepage.js' %}"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const dateInput = document.getElementById("dateSearch");
+        const rows = document.querySelectorAll(
+          ".table tbody tr:not(.empty-row)"
+        );
+
+        dateInput.addEventListener("input", function () {
+          const filterDate = dateInput.value;
+          rows.forEach((row) => {
+            const cellDate = row
+              .querySelector(".datetime-cell")
+              ?.textContent.trim();
+            if (filterDate === "" || !cellDate) {
+              row.style.display = "";
+            } else if (cellDate.startsWith(filterDate)) {
+              row.style.display = "";
+            } else {
+              row.style.display = "none";
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

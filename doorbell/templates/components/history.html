@@ -31,15 +31,18 @@
       </div>
 
       <nav class="nav-menu">
+        <a href="{% url 'enroll_face' %}" class="nav-item">Enroll Faces</a>
         <a href="{% url 'history' %}" class="nav-item">History</a>
         {% if request.session.logged_in %}
-          <a href="{% url 'user:profile' %}" class="nav-item">
-            {{ request.session.username }}
-          </a>
-          <a href="{% url 'user:signout' %}" class="nav-item login-btn">Sign out</a>
+        <a href="{% url 'user:profile' %}" class="nav-item">
+          {{ request.session.username }}
+        </a>
+        <a href="{% url 'user:signout' %}" class="nav-item login-btn"
+          >Sign out</a
+        >
         {% else %}
-          <a href="{% url 'user:profile' %}" class="nav-item">Profile</a>
-          <a href="{% url 'user:signin' %}" class="nav-item login-btn">Sign in</a>
+        <a href="{% url 'user:profile' %}" class="nav-item">Profile</a>
+        <a href="{% url 'user:signin' %}" class="nav-item login-btn">Sign in</a>
         {% endif %}
       </nav>
     </header>
@@ -67,24 +70,30 @@
           </thead>
           <tbody>
             {% for log in logs %}
-              <tr>
-                <td class="id-cell">#{{ forloop.counter }}</td>
-                <td class="datetime-cell">{{ log.date }}</td>
-                <td class="name-cell">{{ log.name }}</td>
-                <td class="percentage-cell percentage-high">{{ log.percent }}%</td>
-                {% if log.status %}
-                  <td class="status-cell status-opened">Opened</td>
+            <tr>
+              <td class="id-cell">#{{ forloop.counter }}</td>
+              <td class="datetime-cell">{{ log.date }}</td>
+              <td class="name-cell">{{ log.name }}</td>
+              <td class="percentage-cell percentage-high">
+                {{ log.percent }}%
+              </td>
+              {% if log.status %}
+              <td class="status-cell status-opened">Opened</td>
+              {% else %}
+              <td class="status-cell status-failed">Failed</td>
+              {% endif %}
+              <td class="image-cell">
+                {% if log.image %}
+                <img
+                  src="{{ log.image }}"
+                  alt="{{ log.name }}"
+                  class="image-preview"
+                />
                 {% else %}
-                  <td class="status-cell status-failed">Failed</td>
+                <div class="image-placeholder">❓</div>
                 {% endif %}
-                <td class="image-cell">
-                  {% if log.image %}
-                    <img src="{{ log.image }}" alt="{{ log.name }}" class="image-preview" />
-                  {% else %}
-                    <div class="image-placeholder">❓</div>
-                  {% endif %}
-                </td>
-              </tr>
+              </td>
+            </tr>
             {% endfor %}
             <!-- <tr>
               <td class="id-cell">#001</td>
@@ -140,25 +149,27 @@
     </main>
     <script src="{% static 'js/history.js' %}"></script>
     <script src="{% static 'js/homepage.js' %}"></script>
-      <script>
+    <script>
       document.addEventListener("DOMContentLoaded", function () {
-      const dateInput = document.getElementById("dateSearch");
-      const rows = document.querySelectorAll(".table tbody tr");
+        const dateInput = document.getElementById("dateSearch");
+        const rows = document.querySelectorAll(".table tbody tr");
 
-      dateInput.addEventListener("input", function () {
-          const filterDate = dateInput.value; 
-          rows.forEach(row => {
-              const cellDate = row.querySelector(".datetime-cell").textContent.trim();
-              if (filterDate === "") {
-                  row.style.display = "";
-              } else if (cellDate.startsWith(filterDate)) {
-                  row.style.display = "";
-              } else {
-                  row.style.display = "none";
-              }
+        dateInput.addEventListener("input", function () {
+          const filterDate = dateInput.value;
+          rows.forEach((row) => {
+            const cellDate = row
+              .querySelector(".datetime-cell")
+              .textContent.trim();
+            if (filterDate === "") {
+              row.style.display = "";
+            } else if (cellDate.startsWith(filterDate)) {
+              row.style.display = "";
+            } else {
+              row.style.display = "none";
+            }
           });
+        });
       });
-  });
-        </script>
+    </script>
   </body>
 </html>
