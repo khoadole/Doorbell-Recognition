@@ -5,6 +5,7 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('get-popup-template/', views.get_popup_template, name='get_popup_template'),
     path('history', views.history, name='history'),
+    path('enroll_face', views.enroll_face, name='enroll_face'),
     path('api/upload_frame', views.upload_frame, name='upload_frame'),
     path('api/view_feed', views.video_feed, name='video_feed'),
     path('api/latest-recognition', views.latest_recognition, name='latest_recognition'),

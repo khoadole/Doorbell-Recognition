@@ -31,15 +31,18 @@
       </div>
 
       <nav class="nav-menu">
+        <a href="{% url 'enroll_face' %}" class="nav-item">Enroll Faces</a>
         <a href="{% url 'history' %}" class="nav-item">History</a>
         {% if request.session.logged_in %}
-          <a href="{% url 'user:profile' %}" class="nav-item">
-            {{ request.session.username }}
-          </a>
-          <a href="{% url 'user:signout' %}" class="nav-item login-btn">Sign out</a>
+        <a href="{% url 'user:profile' %}" class="nav-item">
+          {{ request.session.username }}
+        </a>
+        <a href="{% url 'user:signout' %}" class="nav-item login-btn"
+          >Sign out</a
+        >
         {% else %}
-          <a href="{% url 'user:profile' %}" class="nav-item">Profile</a>
-          <a href="{% url 'user:signin' %}" class="nav-item login-btn">Sign in</a>
+        <a href="{% url 'user:profile' %}" class="nav-item">Profile</a>
+        <a href="{% url 'user:signin' %}" class="nav-item login-btn">Sign in</a>
         {% endif %}
       </nav>
     </header>
@@ -53,63 +56,86 @@
       <form method="POST" action="{% url 'user:profile' %}">
         {% csrf_token %}
         <div class="profile-wrapper">
-        <div class="profile-container">
-          <div class="profile-container-left">
-            <div class="form-group">
-              <label for="username">Username</label>
-              <input type="text" id="username" value="{{ user.username }}" readonly />
+          <div class="profile-container">
+            <div class="profile-container-left">
+              <div class="form-group">
+                <label for="username">Username</label>
+                <input
+                  type="text"
+                  id="username"
+                  value="{{ user.username }}"
+                  readonly
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value="{{ user.email }}"
+                  readonly
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input
+                  type="text"
+                  id="phone"
+                  name="phonenumber"
+                  value="{{ user.phonenumber }}"
+                />
+              </div>
             </div>
 
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" value="{{ user.email }}" readonly />
-            </div>
+            <div class="profile-container-right">
+              <div class="form-group">
+                <label for="address">Address</label>
+                <input
+                  type="text"
+                  id="address"
+                  name="address"
+                  value="{{ user.address }}"
+                />
+              </div>
 
-            <div class="form-group">
-              <label for="phone">Phone Number</label>
-              <input type="text" id="phone" name="phonenumber" value="{{ user.phonenumber }}" />
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="new-password"
+                  placeholder="Enter new password"
+                />
+              </div>
+              <div class="change-container" "align-right"
+              style="text-align:center; margin-right: 15px;">
+              <button type="submit" class="change-btn">Change</button>
             </div>
-          </div>
-
-          <div class="profile-container-right">
-            <div class="form-group">
-              <label for="address">Address</label>
-              <input type="text" id="address" name="address" value="{{ user.address }}" />
-            </div>
-
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" id="password" name="new-password" placeholder="Enter new password" />
-            </div>
-              <div class="change-container" "align-right" style="text-align:center; margin-right: 15px;">
-                <button type="submit" class="change-btn">Change</button>
-              </div>  
           </div>
         </div>
-
-
       </form>
     </main>
     <script src="{% static 'js/homepage.js' %}"></script>
 
     {% include 'components/notification.html' %}
-      <script>
-          const checkIconUrl = "{% static 'images/base/check.svg' %}";
-          const crossIconUrl = "{% static 'images/base/cross.svg' %}";
-      </script>
-
+    <script>
+      const checkIconUrl = "{% static 'images/base/check.svg' %}";
+      const crossIconUrl = "{% static 'images/base/cross.svg' %}";
+    </script>
 
     <script src="{% static 'js/notification.js' %}"></script>
 
     {% if messages %}
-        <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            {% for message in messages %}
-                showNotification("{{ message.tags }}", "{{ message.message|escapejs }}");
-            {% endfor %}
-        });
-        </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+          {% for message in messages %}
+              showNotification("{{ message.tags }}", "{{ message.message|escapejs }}");
+          {% endfor %}
+      });
+    </script>
     {% endif %}
-
   </body>
 </html>

@@ -32,30 +32,57 @@
       </div>
 
       <nav class="nav-menu">
+        <a href="{% url 'enroll_face' %}" class="nav-item">Enroll Faces</a>
         <a href="{% url 'history' %}" class="nav-item">History</a>
         {% if request.session.logged_in %}
-          <a href="{% url 'user:profile' %}" class="nav-item">
-            {{ request.session.username }}
-          </a>
-          <a href="{% url 'user:signout' %}" class="nav-item login-btn">Sign out</a>
+        <a href="{% url 'user:profile' %}" class="nav-item">
+          {{ request.session.username }}
+        </a>
+        <a href="{% url 'user:signout' %}" class="nav-item login-btn"
+          >Sign out</a
+        >
         {% else %}
-          <a href="{% url 'user:profile' %}" class="nav-item">Profile</a>
-          <a href="{% url 'user:signin' %}" class="nav-item login-btn">Sign in</a>
+        <a href="{% url 'user:profile' %}" class="nav-item">Profile</a>
+        <a href="{% url 'user:signin' %}" class="nav-item login-btn">Sign in</a>
         {% endif %}
       </nav>
     </header>
     <main class="main-content">
       <div class="main-title">Video Streaming</div>
-      <div class="video-container" style="display: flex; flex-direction: column; align-items: center;">
+      <div
+        class="video-container"
+        style="display: flex; flex-direction: column; align-items: center"
+      >
         <!-- <div class="video-placeholder"></div> -->
         <!-- <img src="{% url 'video_feed' %}" width="640" height="480" /> -->
         <img id="video-stream" width="640" height="480" />
-          <div style="margin-top: 15px; display: flex; gap: 15px;">
-              <button id="start-btn" type="button" class="openDoor-btn" onclick="startStream()">Start Streaming</button>
-              <button id="stop-btn" type="button" class="openDoor-btn"  onclick="stopStream()">Stop Stream</button>
-          </div>
+        <div style="margin-top: 15px; display: flex; gap: 15px">
+          <button
+            id="start-btn"
+            type="button"
+            class="openDoor-btn"
+            onclick="startStream()"
+          >
+            Start Streaming
+          </button>
+          <button
+            id="stop-btn"
+            type="button"
+            class="openDoor-btn"
+            onclick="stopStream()"
+          >
+            Stop Stream
+          </button>
+        </div>
       </div>
-        <button id="door-btn" type="button" class="openDoor-btn" onclick="openDoor()">Open Door</button>
+      <button
+        id="door-btn"
+        type="button"
+        class="openDoor-btn"
+        onclick="openDoor()"
+      >
+        Open Door
+      </button>
     </main>
     <script src="{% static 'js/homepage.js' %}"></script>
   </body>

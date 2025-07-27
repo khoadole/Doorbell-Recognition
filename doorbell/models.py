@@ -23,3 +23,14 @@ class DeviceLog(Document):
     date_add = DateTimeField(default=datetime.datetime.now)
     image = StringField()
     
+class EnrolledFace(Document):
+    name = StringField(required=True)
+    image = StringField(required=True)  # base64 encoded image
+    create_at = DateTimeField(default=datetime.datetime.now)
+    type = StringField(default="enrolled_face")
+    owner = ReferenceField(User, required=True)  # Link to user who uploaded
+    
+    meta = {
+        'collection': 'enrolled_faces',
+        'ordering': ['-create_at']
+    }

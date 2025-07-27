@@ -8,6 +8,9 @@ from .mqtt import publish_to_device
 import time
 import threading
 import datetime
+from users.models import User
+from .models import DeviceLog, EnrolledFace
+import base64
 
 latest_frame = None
 frame_lock = threading.Lock()
@@ -86,4 +89,133 @@ def history(request):
 
     return render(request, 'components/history.html', {'logs' : histories})
 
-
+@login_required
+def enroll_face(request):
+    if request.method == 'POST':
+        # Check if this is an AJAX request
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            try:
+                # Handle delete request
+                if 'face_id' in request.POST:
+                    face_id = request.POST.get('face_id')
+                    try:
+                        # Get current user
+                        current_user = User.objects.get(username=request.session.get('username'))
+                        
+                        # Find and delete the face (only if it belongs to current user)
+                        face = EnrolledFace.objects.get(id=face_id, owner=current_user)
+                        face.delete()
+                        
+                        return JsonResponse({
+                            'success': True,
+                            'message': 'Face deleted successfully'
+                        })
+                    except EnrolledFace.DoesNotExist:
+                        return JsonResponse({
+                            'success': False,
+                            'message': 'Face not found or you do not have permission to delete it'
+                        })
+                    except Exception as e:
+                        return JsonResponse({
+                            'success': False,
+                            'message': f'Error deleting face: {str(e)}'
+                        })
+                
+                # Handle upload request
+                else:
+                    name = request.POST.get('name', '').strip()
+                    image_file = request.FILES.get('image')
+                    
+                    if not name:
+                        return JsonResponse({
+                            'success': False,
+                            'message': 'Name is required'
+                        })
+                    
+                    if not image_file:
+                        return JsonResponse({
+                            'success': False,
+                            'message': 'Image is required'
+                        })
+                    
+                    # Validate image size (5MB limit)
+                    if image_file.size > 5 * 1024 * 1024:
+                        return JsonResponse({
+                            'success': False,
+                            'message': 'Image size must be less than 5MB'
+                        })
+                    
+                    # Validate image type
+                    allowed_types = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif']
+                    if image_file.content_type not in allowed_types:
+                        return JsonResponse({
+                            'success': False,
+                            'message': 'Only JPG, PNG, and GIF images are allowed'
+                        })
+                    
+                    try:
+                        # Convert image to base64
+                        image_data = image_file.read()
+                        image_base64 = base64.b64encode(image_data).decode('utf-8')
+                        
+                        # Get current user
+                        current_user = User.objects.get(username=request.session.get('username'))
+                        
+                        # Create new enrolled face
+                        enrolled_face = EnrolledFace(
+                            name=name,
+                            image=image_base64,
+                            owner=current_user,
+                            type="enrolled_face"
+                        )
+                        enrolled_face.save()
+                        
+                        return JsonResponse({
+                            'success': True,
+                            'message': 'Face uploaded successfully'
+                        })
+                        
+                    except Exception as e:
+                        return JsonResponse({
+                            'success': False,
+                            'message': f'Error saving face: {str(e)}'
+                        })
+            
+            except Exception as e:
+                return JsonResponse({
+                    'success': False,
+                    'message': f'Unexpected error: {str(e)}'
+                })
+        
+        # If not AJAX, redirect to avoid form resubmission
+        return redirect('enroll_face')
+    
+    # GET request - display enrolled faces
+    try:
+        # Get current user
+        current_user = User.objects.get(username=request.session.get('username'))
+        
+        # Get enrolled faces for current user
+        enrolled_faces_data = []
+        enrolled_faces = EnrolledFace.objects.filter(owner=current_user).order_by('-create_at')
+        
+        for face in enrolled_faces:
+            enrolled_faces_data.append({
+                'id': str(face.id),
+                'name': face.name,
+                'image': f"data:image/jpeg;base64,{face.image}",
+                'date': face.create_at.strftime('%Y-%m-%d %H:%M:%S')
+            })
+        
+        return render(request, 'components/enroll_face.html', {
+            'enrolled_faces': enrolled_faces_data
+        })
+        
+    except User.DoesNotExist:
+        return redirect('user:signin')
+    except Exception as e:
+        # Log error and show empty page
+        print(f"Error loading enrolled faces: {str(e)}")
+        return render(request, 'components/enroll_face.html', {
+            'enrolled_faces': []
+        })
