@@ -171,5 +171,33 @@
         });
       });
     </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const tableBody = document.querySelector(".table tbody");
+      const rows = Array.from(tableBody.querySelectorAll("tr"));
+      
+      const seen = new Set();
+      
+      rows.forEach(row => {
+        const dateTime = row.querySelector(".datetime-cell")?.textContent.trim();
+        const image = row.querySelector(".image-cell img")?.getAttribute("src") || "NO_IMAGE";
+
+        const key = `${dateTime}||${image}`;
+        if (seen.has(key)) {
+          row.remove();
+        } else {
+          seen.add(key);
+        }
+      });
+
+      const updatedRows = tableBody.querySelectorAll("tr");
+      updatedRows.forEach((row, index) => {
+        const idCell = row.querySelector(".id-cell");
+        if (idCell) {
+          idCell.textContent = `#${index + 1}`;
+        }
+      });
+    });
+    </script>
   </body>
 </html>
