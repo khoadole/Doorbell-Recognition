@@ -10,11 +10,6 @@ class Device(Document):
     owner = ReferenceField(User, required=True)
     date_add = DateField(default=datetime.datetime.now)
 
-class FaceID(Document):
-    name = StringField(required=True)
-    device = ReferenceField(Device, required=True)
-    date_add = DateField(default=datetime.datetime.now)
-
 class DeviceLog(Document):
     # device = ReferenceField(Device, required=True)
     name = StringField(default="Unknown Person")
@@ -28,7 +23,7 @@ class EnrolledFace(Document):
     image = StringField(required=True)  # base64 encoded image
     create_at = DateTimeField(default=datetime.datetime.now)
     type = StringField(default="enrolled_face")
-    owner = ReferenceField(User, required=True)  # Link to user who uploaded
+    # owner = ReferenceField(User, required=True)  # Link to user who uploaded
     
     meta = {
         'collection': 'enrolled_faces',

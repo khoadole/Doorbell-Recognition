@@ -57,13 +57,14 @@ def latest_recognition(request):
 def open_door(request):
     if request.method == "POST":
         try:
-            publish_to_device(True)
+            publish_to_device("opendoor", True)
             return JsonResponse({'status': 'success'})
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
     return JsonResponse({'error': 'Only POST allowed'}, status=405)
 
+@login_required
 def home(request):
     # publish_to_device("haha")
     # if request.method == "POST":
@@ -100,10 +101,10 @@ def enroll_face(request):
                     face_id = request.POST.get('face_id')
                     try:
                         # Get current user
-                        current_user = User.objects.get(username=request.session.get('username'))
+                        # current_user = User.objects.get(username=request.session.get('username'))
                         
                         # Find and delete the face (only if it belongs to current user)
-                        face = EnrolledFace.objects.get(id=face_id, owner=current_user)
+                        face = EnrolledFace.objects.get(id=face_id)
                         face.delete()
                         
                         return JsonResponse({
@@ -159,13 +160,13 @@ def enroll_face(request):
                         image_base64 = base64.b64encode(image_data).decode('utf-8')
                         
                         # Get current user
-                        current_user = User.objects.get(username=request.session.get('username'))
+                        # current_user = User.objects.get(username=request.session.get('username'))
                         
                         # Create new enrolled face
                         enrolled_face = EnrolledFace(
                             name=name,
                             image=image_base64,
-                            owner=current_user,
+                            # owner=current_user,
                             type="enrolled_face"
                         )
                         enrolled_face.save()
@@ -193,11 +194,11 @@ def enroll_face(request):
     # GET request - display enrolled faces
     try:
         # Get current user
-        current_user = User.objects.get(username=request.session.get('username'))
+        # current_user = User.objects.get(username=request.session.get('username'))
         
         # Get enrolled faces for current user
         enrolled_faces_data = []
-        enrolled_faces = EnrolledFace.objects.filter(owner=current_user).order_by('-create_at')
+        enrolled_faces = EnrolledFace.objects.order_by('-create_at')
         
         for face in enrolled_faces:
             enrolled_faces_data.append({
