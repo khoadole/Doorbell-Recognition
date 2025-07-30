@@ -13,9 +13,7 @@ git clone https://github.com/khoadole/Doorbell-Recognition.git
 cd doorbell-recognition
 ```
 
-2. **Dowload vggface model and put it next to manage.py file**
-
-(link)[https://drive.google.com/file/d/1MPw0ayRCItQ-5v6KW3ONLKECN0uUDlwn/view?usp=sharing]
+2. **Dowload [vggface model](https://drive.google.com/file/d/1MPw0ayRCItQ-5v6KW3ONLKECN0uUDlwn/view?usp=drive_link) and put it next to _manage.py_ file** 
 
 ## For device's model test image
-Create a folder name **saved_image** next to manage.py file
+Create a folder name **saved_image** next to _manage.py_ file
