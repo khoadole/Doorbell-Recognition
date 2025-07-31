@@ -69,7 +69,7 @@ def cosine_similarity(a, b):
 
 def recognize_face(image_base64):
     best_match = "Unknown"
-    best_score = -1
+    best_score = 0
     embedding = enbedding_image(preprocess_image(image_base64, True))
 
     for face in EnrolledFace.objects():
