@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from users.decorators import login_required
 from .models import DeviceLog
 from .mqtt import publish_to_device
+from .FacialEmbeddingsModel import enbedding_image, preprocess_image
 import time
 import threading
 import datetime
@@ -161,11 +162,13 @@ def enroll_face(request):
                         
                         # Get current user
                         # current_user = User.objects.get(username=request.session.get('username'))
+                        face_embedding = enbedding_image(preprocess_image(image_base64, detect=True))
                         
                         # Create new enrolled face
                         enrolled_face = EnrolledFace(
                             name=name,
                             image=image_base64,
+                            embedding=face_embedding.tolist(),
                             # owner=current_user,
                             type="enrolled_face"
                         )

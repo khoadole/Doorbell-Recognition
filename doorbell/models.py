@@ -1,4 +1,4 @@
-from mongoengine import Document, StringField, DateField, ReferenceField, FloatField, BooleanField, DateTimeField
+from mongoengine import Document, StringField, DateField, ReferenceField, FloatField, BooleanField, DateTimeField, ListField
 from users.models import User
 import datetime
 
@@ -21,6 +21,7 @@ class DeviceLog(Document):
 class EnrolledFace(Document):
     name = StringField(required=True)
     image = StringField(required=True)  # base64 encoded image
+    embedding = ListField()
     create_at = DateTimeField(default=datetime.datetime.now)
     type = StringField(default="enrolled_face")
     # owner = ReferenceField(User, required=True)  # Link to user who uploaded

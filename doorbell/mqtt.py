@@ -10,8 +10,8 @@ TOPIC_TO_DEVICE = f"{settings.MQTT_TOPIC}/to_device"
 
 # MQTT client instance
 client = mqtt.Client()
-name = "Unknown"
-score = 0
+# name = "Unknown"
+# score = 0
 
 def on_connect(client, userdata, flags, rc):
     print(f"[MQTT] Connected with result code {rc}")
@@ -31,15 +31,15 @@ def on_message(client, userdata, msg):
         print("[MQTT] Invalid JSON received.")
 
 def handle_device_message(data):
-    global name
-    global score
+    # global name
+    # global score
     if 'image' in data:
-        ending = data["end"]
-        print(f"[MQTT] Handling device message: Image - {ending}")
+        detect = data["detect"]
+        print(f"[MQTT] Handling device message: Image - detect face: {detect}")
         
-
-        if data["end"] == False:
+        if detect:
             name, score = recognize_face(data['image'])
+            recognize = True if score >= 0.8 else False
 
             # For saving image from device
             # import base64
@@ -49,25 +49,23 @@ def handle_device_message(data):
             # with open(filename, 'wb') as f:
             #     f.write(img)
 
-            if score >= 0.9:
-                log = DeviceLog(
-                    name = name,
-                    percent = score,
-                    status = True,
-                    image = data["image"]
-                )
-                log.save()
-                publish_to_device("opendoor", True)
-                return        
-        else:
             log = DeviceLog(
                 name = name,
                 percent = score,
+                status = recognize,
+                image = data["image"]
+            )
+            log.save()
+            publish_to_device("opendoor", recognize)   
+        else:
+            log = DeviceLog(
+                name = "Unknown",
+                percent = 0,
                 status = False,
                 image = data["image"]
             )
             log.save()
-
+            publish_to_device("opendoor", False)   
     elif 'ip' in data:
         print(f"[MQTT] Handling device message: ip server request")
         ip = f"http://{get_computer_ipv4()}:8000/api/upload_frame"
