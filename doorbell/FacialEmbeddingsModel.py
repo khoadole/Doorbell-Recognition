@@ -30,26 +30,26 @@ def preprocess_image(base64_str, detect=False):
     if img is None:
         raise ValueError("Image decoding failed.")
 
-    if detect:
-        # Convert to RGB for face detection
-        img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    # Use MTCNN to detect face
+    img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    detector = MTCNN()
+    faces = detector.detect_faces(img_rgb)
 
-        # Detect face
-        detector = MTCNN()
-        faces = detector.detect_faces(img_rgb)
-
-        if not faces:
-            raise ValueError("No face detected in the image.")
-
+    if faces:
         # Get the first face box
         x, y, w, h = faces[0]['box']
-        x, y = max(0, x), max(0, y)  # Clip negatives
-
-        # Crop the face from original BGR image
+        x, y = max(0, x), max(0, y)
         img = img[y:y+h, x:x+w]
+    else:  
+        print("[FACE CROPPING] No face detected in the image.")
 
     # Resize to 96x96 (VGGFace requirement)
     img = cv2.resize(img, (96, 96))
+
+    # # For saving image from device
+    # import uuid
+    # filename = f"saved_image/{uuid.uuid4()}.jpg"
+    # cv2.imwrite(filename, img)   
 
     # Convert to float32
     img = img.astype('float32')
@@ -67,10 +67,9 @@ def enbedding_image(image):
 def cosine_similarity(a, b):
     return np.dot(a, b.T) / (np.linalg.norm(a) * np.linalg.norm(b))
 
-def recognize_face(image_base64):
+def recognize_face(embedding):
     best_match = "Unknown"
     best_score = 0
-    embedding = enbedding_image(preprocess_image(image_base64, True))
 
     for face in EnrolledFace.objects():
         name = face["name"]

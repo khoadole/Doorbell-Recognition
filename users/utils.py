@@ -1,5 +1,5 @@
 from django.conf import settings
-from .models import OtpToken
+from .models import OtpToken, User
 from django.core.mail import send_mail
 import secrets
 from datetime import datetime, timedelta
@@ -37,4 +37,18 @@ def sendOtp(user):
     sender = settings.EMAIL_HOST_USER
     receiver = [user.email,]
     send_mail(subject, message, sender, receiver, fail_silently=False)
-    print("OTP sended!")
+    print("[EMAIL] OTP sended!")
+
+def sendDoorBell():
+    users = User.objects()
+
+    subject = "Email Verification"
+    message = f"""
+                    Hi, someone just hit the button. Please check the camera on the website
+    """
+    
+    sender = settings.EMAIL_HOST_USER
+    receiver = [user.email for user in users]
+    send_mail(subject, message, sender, receiver, fail_silently=False)
+
+    print("[EMAIL] notification sended!")

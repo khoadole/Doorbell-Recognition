@@ -1,7 +1,8 @@
 import paho.mqtt.client as mqtt
 from django.conf import settings
 from .models import DeviceLog
-from .FacialEmbeddingsModel import recognize_face
+from users.utils import sendDoorBell
+from .FacialEmbeddingsModel import recognize_face, preprocess_image, enbedding_image
 import json
 import socket
 
@@ -10,8 +11,6 @@ TOPIC_TO_DEVICE = f"{settings.MQTT_TOPIC}/to_device"
 
 # MQTT client instance
 client = mqtt.Client()
-# name = "Unknown"
-# score = 0
 
 def on_connect(client, userdata, flags, rc):
     print(f"[MQTT] Connected with result code {rc}")
@@ -31,41 +30,27 @@ def on_message(client, userdata, msg):
         print("[MQTT] Invalid JSON received.")
 
 def handle_device_message(data):
-    # global name
-    # global score
-    if 'image' in data:
-        detect = data["detect"]
-        print(f"[MQTT] Handling device message: Image - detect face: {detect}")
-        
-        if detect:
-            name, score = recognize_face(data['image'])
-            recognize = True if score >= 0.8 else False
+    if 'doorbell' in data:
+        sendDoorBell()
+        print("[MQTT] Handling device message: Somebody just hit the button")
+    elif 'image' in data:
+        print(f"[MQTT] Handling device message: Face detection")
+        # print(data['image'])
 
-            # For saving image from device
-            # import base64
-            # import uuid
-            # img = base64.b64decode(data['image'])
-            # filename = f"saved_image/{uuid.uuid4()}.jpg"
-            # with open(filename, 'wb') as f:
-            #     f.write(img)
+        preprocessed_image = preprocess_image(data['image'], detect=True)
+        embedding = enbedding_image(preprocessed_image)
+        name, score = recognize_face(embedding)
+        recognize = True if score >= 0.8 else False
+        print(f"FACE RECOGNITION threshold: {score} - {name}")         
 
-            log = DeviceLog(
-                name = name,
-                percent = score,
-                status = recognize,
-                image = data["image"]
-            )
-            log.save()
-            publish_to_device("opendoor", recognize)   
-        else:
-            log = DeviceLog(
-                name = "Unknown",
-                percent = 0,
-                status = False,
-                image = data["image"]
-            )
-            log.save()
-            publish_to_device("opendoor", False)   
+        log = DeviceLog(
+            name = name,
+            percent = score,
+            status = recognize,
+            image = data["image"]
+        )
+        log.save()
+        publish_to_device("opendoor", recognize)   
     elif 'ip' in data:
         print(f"[MQTT] Handling device message: ip server request")
         ip = f"http://{get_computer_ipv4()}:8000/api/upload_frame"
