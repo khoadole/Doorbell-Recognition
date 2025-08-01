@@ -42,6 +42,7 @@ def preprocess_image(base64_str, detect=False):
         img = img[y:y+h, x:x+w]
     else:  
         print("[FACE CROPPING] No face detected in the image.")
+        return None
 
     # Resize to 96x96 (VGGFace requirement)
     img = cv2.resize(img, (96, 96))
