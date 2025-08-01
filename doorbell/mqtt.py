@@ -34,8 +34,11 @@ def handle_device_message(data):
         sendDoorBell()
         print("[MQTT] Handling device message: Somebody just hit the button")
     elif 'image' in data:
+        if data['image'] is None:
+            publish_to_device("opendoor", False)
+            print(f"[MQTT] Handling device message: No image")
+            return   
         print(f"[MQTT] Handling device message: Face detection")
-        # print(data['image'])
 
         preprocessed_image = preprocess_image(data['image'], detect=True)
         embedding = enbedding_image(preprocessed_image)
