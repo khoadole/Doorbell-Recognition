@@ -41,7 +41,7 @@ def handle_device_message(data):
         print(f"[MQTT] Handling device message: Face detection")
 
         preprocessed_image = preprocess_image(data['image'], detect=True)
-        if preprocess_image is None:
+        if preprocessed_image is None:
             publish_to_device("opendoor", False)
             return 
         embedding = enbedding_image(preprocessed_image)
